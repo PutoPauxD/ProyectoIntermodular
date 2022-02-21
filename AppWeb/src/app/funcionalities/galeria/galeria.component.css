@@ -1,0 +1,8 @@
+app-imagen {
+  transition: 0.3s ease-in-out;
+}
+
+app-imagen:hover {
+  transform: translateY(-3px);
+  transition: 0.3s ease-in-out;
+}

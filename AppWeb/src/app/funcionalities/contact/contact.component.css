@@ -1,0 +1,8 @@
+.custom-container {
+  border: 1px solid gray;
+  border-radius: 7px;
+}
+
+textarea {
+  height: 150px;
+}
