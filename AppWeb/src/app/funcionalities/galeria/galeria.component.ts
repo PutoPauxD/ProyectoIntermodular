@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Imagen } from 'src/app/clases/imagen';
 import { User } from 'src/app/clases/user';
 import { ImagenesService } from 'src/app/services/imagenes/imagenes.service';
-import { PostsService } from 'src/app/services/posts.service';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 
 @Component({
@@ -18,8 +17,9 @@ export class GaleriaComponent implements OnInit {
   imgDetails:any[]=[];
   array:User[];
   ob:Imagen={
-    url:"",
-    usuario_id:0
+  url:"",
+  usuario_id:0
+
   };
   constructor(
     private imagenesService: ImagenesService,

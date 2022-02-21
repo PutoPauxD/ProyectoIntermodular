@@ -1,4 +1,4 @@
-<div class="col py-3">
+<div class="col py-3" *ngIf="!user">
   <h1 class="text-center mb-4">¡Contacta con nuestro equipo!</h1>
   <!--zona de contenido-->
   <div class="container d-flex justify-content-center align-content-center custom-container mb-3">
@@ -30,4 +30,8 @@
       </div>
   </form>
   </div>
+</div>
+
+<div class="col py-3" *ngIf="user">
+  Por favor, inicia sesion para poder acceder al sistema de contacto
 </div>

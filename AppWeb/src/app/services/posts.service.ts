@@ -8,7 +8,7 @@ import { Post } from '../clases/post';
 })
 export class PostsService {
 
-  url:string = "https://www.intermodal.daw/api/";
+  url:string = "http://localhost/api/";
 
   constructor(private http: HttpClient) { }
 

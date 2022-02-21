@@ -8,7 +8,7 @@ import { Imagen } from 'src/app/clases/imagen';
 })
 export class ImagenesService {
 
-  url:string = "https://www.intermodal.daw/api/";
+  url:string = "http://localhost/api/";
   constructor(private http: HttpClient) { }
 
   insertarImagen(imagen:Imagen): Observable<any>{

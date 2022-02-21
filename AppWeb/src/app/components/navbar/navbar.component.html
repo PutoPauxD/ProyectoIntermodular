@@ -51,8 +51,8 @@
       </ul>
     </div>
 
-    <button *ngIf="!user" type="button" class="d-none d-md-block btn btn-primary w-25" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-    <p *ngIf="user">asd</p>
+    <button *ngIf="!user" type="button" class="d-none d-md-block btn btn-primary w-25" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+    <button *ngIf="user" (click)="logout()" type="button" class="d-none d-md-block btn btn-danger w-25">Cerrar Sesión</button>
   </div>
 </nav>
 
@@ -63,7 +63,7 @@
 
   <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Login</h4>
+              <h4 class="modal-title">Iniciar Sesion</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeLogin()"></button>
           </div>
 

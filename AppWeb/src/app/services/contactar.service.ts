@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ContactarService {
-  private url:string = "https://www.intermodal.daw/api/";
+  private url:string = "http://localhost/api/";
   constructor(private http: HttpClient) { }
   insertarFormulario(form:any): Observable<any>{
     return this.http.post(this.url+"?contactar=1",form);
