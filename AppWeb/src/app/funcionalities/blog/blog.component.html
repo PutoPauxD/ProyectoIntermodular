@@ -1,32 +1,36 @@
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <!--El nav lateral-->
-      <div *ngIf="user" class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+      <div *ngIf="user" class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white menu-lat">
           <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-              <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                  <span class="fs-5 d-none d-sm-inline">Menú</span>
+              <a href="/" class="d-flex align-items-center py-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                  <span class="fs-5 d-none d-sm-inline"><h2 class="title">MENU</h2></span>
               </a>
               <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                   <li class="nav-item" *ngIf="user.tipe == 0">
-                      <a href="" (click)="resetear()" data-bs-toggle="modal" data-bs-target="#publicarModal" class="nav-link align-middle px-0">
+                      <a href="" (click)="resetear()" data-bs-toggle="modal" data-bs-target="#publicarModal" class="nav-link align-middle px-0 menu-content">
                           <i class="fs-4 bi-person" style="width:70px"></i> <span class="ms-1 d-none d-sm-inline">Publicar post</span>
                       </a>
+                      <hr>
                   </li>
                   <li class="nav-item" *ngIf="user.tipe == 0">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#eliminarModal" (click)="cargarPosts()" class="nav-link align-middle px-0">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#eliminarModal" (click)="cargarPosts()" class="nav-link align-middle px-0 menu-content">
                         <i class="fs-4 bi-trash" style="width:70px"></i> <span class="ms-1 d-none d-sm-inline">Eliminar post</span>
                     </a>
+                    <hr>
                   </li>
                   <li class="nav-item" *ngIf="user.tipe == 1">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#eliminarModal" (click)="cargarPosts()" class="nav-link align-middle px-0">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#eliminarModal" (click)="cargarPosts()" class="nav-link align-middle px-0 menu-content">
                         <i class="fs-4 bi-trash" style="width:70px"></i> <span class="ms-1 d-none d-sm-inline">Eliminar post</span>
                     </a>
+                    <hr>
                   </li>
                   <li class="nav-item">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#postModal" class="nav-link px-0 align-middle">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#postModal" class="nav-link px-0 align-middle menu-content">
                       <i class="fs-4 bi-file-post-fill"></i> <span class="ms-1 d-none d-sm-inline">Crear post</span>
                     </a>
                   </li>
+                  <hr>
               </ul>
             </div>
         </div>
@@ -50,21 +54,21 @@
 
   <!-- Modal body -->
           <div class="modal-body">
-              Nueva publicación
+              <p>Nueva publicación</p>
               <form autocomplete="off" [formGroup]="postForm" (ngSubmit)="postFormSubmit()" class="mt-2">
-
-                  <div class="mb-3">
+                  <div class="mb-3 form-floating">
                     <input formControlName="title" [class.is-invalid]="titleField.touched && titleField.invalid"
                       type="text" class="form-control" id="id_Title" placeholder="Título de la publicación" required>
+                      <label for="id_Title">Título de post</label>
                     <div *ngIf="titleField.touched && titleField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce el título de la publicación.</div>
                   </div>
                   <div class="mb-3">
-                    <textarea class="form-control" id="textarea" formControlName="message" [class.is-invalid]="contentField.touched && contentField.invalid" placeholder="Escribe tu mensaje" rows="5" required></textarea>
+                    <textarea class="form-control" id="textarea" formControlName="message" [class.is-invalid]="contentField.touched && contentField.invalid" placeholder="Contenido de tu post" rows="5" required></textarea>
                     <div *ngIf="contentField.touched && contentField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce tu mensaje. Mínimo 10 carácteres.
                     </div>
                   </div>
 
-                  <button [disabled]="postForm.invalid" type="submit" data-bs-dismiss="modal" class=" mt-3 btn btn-primary w-100">Crear</button>
+                  <button [disabled]="postForm.invalid" type="submit" data-bs-dismiss="modal" class=" mt-3 btn aceptar-button w-100">Crear</button>
               </form>
           </div>
 
@@ -91,15 +95,15 @@
           <div class="modal-body">
 
             <ng-template [ngIf]="postsNoVer.length >0" [ngIfElse]="elseBlock">
-              <label for="cars">Posts sin publicar:</label>
+              <label class="label-posts" for="cars">Posts sin publicar:</label>
             <br>
-            <select  name="publicPosts" id="publicPosts" [(ngModel)]="selected">
+            <select name="publicPosts" class="form-select" id="publicPosts" [(ngModel)]="selected">
               <option  *ngFor="let p of postsNoVer" [ngValue]="p">
                 {{p.titulo}}
               </option>
             </select>
             <div class="d-flex justify-content-center align-content-center mt-3">
-              <button class="btn btn-primary" (click)="publicar()" data-bs-dismiss="modal">Publicar</button>
+              <button class="btn aceptar-button w-100" (click)="publicar()" data-bs-dismiss="modal">Publicar</button>
             </div>
           </ng-template>
             <ng-template #elseBlock>
@@ -131,17 +135,16 @@
           <div class="modal-body">
 
             <ng-template [ngIf]="todosPosts.length >0" [ngIfElse]="elseBorrar">
-              <label for="cars">Posts para borrar:</label>
+              <label class="label-posts mb-3" for="cars">Posts para borrar:</label>
               <br>
               <table>
                   <tr>
                     <th scope="col">Titulo</th>
-                    <th scope="col">Borrar</th>
                   </tr>
                 <tbody>
                   <tr *ngFor="let p of todosPosts; let iControl=index">
                     <th scope="row"> {{p.titulo}} </th>
-                    <td><a class="btn btn-danger" role="button" (click)="borrar(iControl, p.id)" >Borrar</a></td>
+                    <td><a class="btn trash" role="button" (click)="borrar(iControl, p.id)" ><i class="fs-4 bi-trash text-danger" style="width:70px"></i></a></td>
                   </tr>
                 </tbody>
               </table>

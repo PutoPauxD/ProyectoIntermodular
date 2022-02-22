@@ -93,6 +93,13 @@ export class BlogComponent implements OnInit {
         this.todosPosts.splice(iControl, 1);
       } else {
         this.todosPosts.splice(iControl, 1);
+        for(let i=0;i<this.postsVer.length;i++){
+          if(id===this.postsVer[i].id){
+            iControl = i;
+            this.postsVer.splice(iControl, 1);
+          }
+        }
+
       }
     });
   }

@@ -1,34 +1,43 @@
-<div class="col py-3" *ngIf="!user">
-  <h1 class="text-center mb-4">¡Contacta con nuestro equipo!</h1>
+<div class="col py-3 bg-light" *ngIf="!user">
   <!--zona de contenido-->
-  <div class="container d-flex justify-content-center align-content-center custom-container mb-3">
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="mt-2 w-100 px-5">
-      <div class="my-4 form-floating">
-        <input formControlName="name" [class.is-invalid]="nameField.touched && nameField.invalid" type="text"
-          class="form-control w-100" id="name" placeholder="Nombre">
-          <label for="name">Nombre</label>
-        <div *ngIf="nameField.touched && nameField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Nombre.</div>
-        <div *ngIf="nameField.touched && nameField.hasError('name')" class="d-block invalid-feedback">Nombre no es válido.</div>
+  <h1 class="text-center mt-4 mb-5">¡CONTACTA CON NOSOTROS!</h1>
+  <div class="container custom-container mb-5">
+    <div class="row">
+      <div class="col-12 col-lg-3 bg-black title-contact d-none d-lg-block">
+        <div class="d-flex justify-content-center mt-5">
+          <img src="./assets/logo.png" alt="Avatar Logo" class="rounded-pill logo mt-5">
+        </div>
       </div>
+      <div class="col-12 col-lg-9">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="mt-2 w-100 px-lg-5">
+          <div class="my-4 form-floating">
+            <input formControlName="name" [class.is-invalid]="nameField.touched && nameField.invalid" type="text"
+              class="form-control w-100" id="name" placeholder="Nombre">
+              <label for="name">Nombre</label>
+            <div *ngIf="nameField.touched && nameField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Nombre.</div>
+            <div *ngIf="nameField.touched && nameField.hasError('name')" class="d-block invalid-feedback">Nombre no es válido.</div>
+          </div>
 
-      <div class="mb-4 form-floating">
-        <input formControlName="email" [class.is-invalid]="emailField.touched && emailField.invalid" type="email"
-          class="form-control w-100" id="email" placeholder="Email">
-          <label for="email">nombre1234@gmail.com</label>
-        <div *ngIf="emailField.touched && emailField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Email.</div>
-        <div *ngIf="emailField.touched && emailField.hasError('email')" class="d-block invalid-feedback">Email no es válido.</div>
-      </div>
+          <div class="mb-4 form-floating">
+            <input formControlName="email" [class.is-invalid]="emailField.touched && emailField.invalid" type="email"
+              class="form-control w-100" id="email" placeholder="Email">
+              <label for="email">nombre1234@gmail.com</label>
+            <div *ngIf="emailField.touched && emailField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Email.</div>
+            <div *ngIf="emailField.touched && emailField.hasError('email')" class="d-block invalid-feedback">Email no es válido.</div>
+          </div>
 
-      <div class="mb-2 w-100">
-        <textarea formControlName="mensaje"  class="form-control w-100" name="message" [class.is-invalid]="messageField.touched && messageField.invalid" id="message" cols="30" rows="10" placeholder="Deja un comentario aquí..."></textarea>
-        <div *ngIf="messageField.touched && messageField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce un comentario.</div>
-        <div *ngIf="messageField.touched && messageField.hasError('message')" class="d-block invalid-feedback">Comentario no es válido.</div>
-      </div>
+          <div class="mb-2 w-100">
+            <textarea formControlName="mensaje"  class="form-control w-100" name="message" [class.is-invalid]="messageField.touched && messageField.invalid" id="message" cols="30" rows="10" placeholder="Deja un comentario aquí..."></textarea>
+            <div *ngIf="messageField.touched && messageField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce un comentario.</div>
+            <div *ngIf="messageField.touched && messageField.hasError('message')" class="d-block invalid-feedback">Comentario no es válido.</div>
+          </div>
 
-      <div class="d-flex justify-content-center align-content-center">
-        <button [disabled]="contactForm.invalid" data-bs-dismiss="modal" type="submit" class="my-3 btn btn-primary w-50">Contacta con nosotros</button>
+          <div class="d-flex justify-content-center align-content-center">
+            <button data-bs-dismiss="modal" type="submit" class="my-3 btn contact-button w-50">Contacta con nosotros</button>
+          </div>
+        </form>
       </div>
-  </form>
+    </div>
   </div>
 </div>
 

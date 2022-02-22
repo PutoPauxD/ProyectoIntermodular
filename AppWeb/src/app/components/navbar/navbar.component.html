@@ -4,10 +4,10 @@
   <button class="btn btn-secondary mx-1" routerLink="blog">Blog</button>
 </div> -->
 
-<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top w-auto">
+<nav class="navbar navbar-expand-md bg-white navbar-light sticky-top w-auto">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="./assets/logo.png " alt="Avatar Logo" class="rounded-pill logo">
+      <img src="./assets/logo.png" alt="Avatar Logo" class="rounded-pill logo">
       <img src="./assets/logotexto.png" alt="Avatar Logo" class="rounded-pill ms-2 logotexto d-none d-sm-inline">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -16,20 +16,26 @@
 
     <div class="collapse navbar-collapse d-md-none" id="collapsibleNavbar">
       <ul class="navbar-nav d-md-none">
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="home" href="home">Home</a>
+        <li class="nav-item">
+          <a class="nav-link text-black inside" routerLink="home" href="home">HOME</a>
+          <hr>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="blog" href="blog">Blog</a>
+          <a class="nav-link text-black inside" routerLink="blog" href="blog">BLOG</a>
+          <hr>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="galeria" href="galeria">Galería</a>
+          <a class="nav-link text-black inside" routerLink="galeria" href="galeria">GALERÍA</a>
+          <hr>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="contact" href="contact">Contáctanos</a>
+          <a class="nav-link text-black inside" routerLink="contact" href="contact">CONTACTO</a>
+          <hr>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</a>
+        <li class="nav-item">
+          <a *ngIf="!user" class="nav-link text-black inside cuenta" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person d-inline ms-1"></i>CUENTA</a>
+          <a *ngIf="user" (click)="logout()" class="nav-link text-black inside cuenta"><i class="bi bi-person d-inline ms-1"></i>{{user.name}}</a>
+          <hr>
         </li>
       </ul>
     </div>
@@ -37,22 +43,22 @@
     <div class="container-fluid d-none d-md-block">
       <ul class="navbar-nav">
         <li class="nav-item ">
-          <a class="nav-link" routerLink="home" href="home">Home</a>
+          <a class="nav-link text-black outside" routerLink="home" href="home">HOME</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="blog" href="blog">Blog</a>
+          <a class="nav-link text-black outside" routerLink="blog" href="blog">BLOG</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="galeria" href="galeria">Galería</a>
+          <a class="nav-link text-black outside" routerLink="galeria" href="galeria">GALERÍA</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="contact" href="contact">Contáctanos</a>
+          <a class="nav-link text-black outside" routerLink="contact" href="contact">CONTACTO</a>
         </li>
       </ul>
     </div>
 
-    <button *ngIf="!user" type="button" class="d-none d-md-block btn btn-primary w-25" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-    <button *ngIf="user" (click)="logout()" type="button" class="d-none d-md-block btn btn-danger w-25">Cerrar Sesión</button>
+    <button *ngIf="!user" type="button" class="d-none d-md-block btn rounded-circle" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person"></i></button>
+    <button *ngIf="user" (click)="logout()" type="button" class="d-none d-md-block btn signed-in">{{user.name}}<i class="bi bi-person d-inline ms-1"></i></button>
   </div>
 </nav>
 
@@ -63,18 +69,18 @@
 
   <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Iniciar Sesion</h4>
+              <h4 class="modal-title">INICIAR SESIÓN</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeLogin()"></button>
           </div>
 
   <!-- Modal body -->
           <div class="modal-body">
-              Inicia sesión
+              <p>Porfavor introduce tu correo y contraseña:</p>
               <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()" class="mt-2">
                   <div class="mb-2 form-floating">
                     <input formControlName="email" [class.is-invalid]="emailField.touched && emailField.invalid" type="email"
                       class="form-control" id="id_email" placeholder="usuario@ejemplo.com">
-                      <label for="email">usuario@ejemplo.com</label>
+                      <label for="email">E-mail</label>
                     <div *ngIf="emailField.touched && emailField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Email.</div>
                     <div *ngIf="emailField.touched && emailField.hasError('email')" class="d-block invalid-feedback">Email no es válido.</div>
                   </div>
@@ -82,18 +88,18 @@
                   <div class="mb-3 form-floating">
                     <input formControlName="password" [class.is-invalid]="passwordField.touched && passwordField.invalid"
                       type="password" class="form-control" id="id_Password" placeholder="******">
-                      <label for="id_password">******</label>
+                      <label for="id_password">Contraseña</label>
                     <div *ngIf="passwordField.touched && passwordField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce contraseña.</div>
                   </div>
 
-                  <button [disabled]="loginForm.invalid" data-bs-dismiss="modal" type="submit" class=" mt-3 btn btn-primary w-100">Iniciar sesión</button>
+                  <button data-bs-dismiss="modal" type="submit" class=" mt-3 btn login-button w-100">Login</button>
               </form>
           </div>
 
   <!-- Modal footer -->
           <div class="mb-3">
             <hr>
-            <p class="ms-3 me-2">¿No tienes usuario?<a href="" data-bs-toggle="modal" data-bs-target="#ModalRegistrar" id="registrar" data-bs-dismiss="modal">Regístrate</a></p>
+            <p class="ms-3 me-3 register-text">¿No tienes usuario?      <a href="" data-bs-toggle="modal" data-bs-target="#ModalRegistrar" id="registrar" data-bs-dismiss="modal">Regístrate</a></p>
           </div>
       </div>
   </div>
@@ -113,21 +119,21 @@
         <div class="form-group form-floating mb-2">
             <input formControlName="email" [class.is-invalid]="emailRegisterField.touched && emailRegisterField.invalid" type="email"
               class="form-control" id="id_email" placeholder="usuario@ejemplo.com">
-              <label for="firstName">usuario@ejemplo.com</label>
+              <label for="firstName">E-mail</label>
               <div *ngIf="emailRegisterField.touched && emailRegisterField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Email.</div>
         </div>
         <div class="form-group form-floating my-2">
             <input type="text" formControlName="username" [class.is-invalid]="usernameField.touched && usernameField.invalid" class="form-control" placeholder="usuario123"/>
-            <label for="lastName">usuario123</label>
+            <label for="lastName">Usuario</label>
             <div *ngIf="usernameField.touched && usernameField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce nombre de usuario.</div>
         </div>
         <div class="form-group form-floating my-2">
             <input type="password" formControlName="password" [class.is-invalid]="passwordRegisterField.touched && passwordRegisterField.invalid" class="form-control" placeholder="******"/>
-            <label for="id_password">******</label>
+            <label for="id_password">Contraseña</label>
             <div *ngIf="passwordRegisterField.touched && passwordRegisterField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce una contraseña con un mínimo de 6 caracteres.</div>
         </div>
         <div class="form-group mt-3">
-            <button [disabled]="registerForm.invalid" data-bs-dismiss="modal" type="submit" class="btn btn-primary mx-auto w-100">
+            <button [disabled]="registerForm.invalid" data-bs-dismiss="modal" type="submit" class="btn login-button mx-auto w-100">
                 Registrar
             </button>
         </div>

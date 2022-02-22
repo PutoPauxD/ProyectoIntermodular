@@ -1,9 +1,9 @@
-<div class="d-flex justify-content-center align-items-center mt-5">
-  <h1>Galería fotográfica</h1>
+<div class="d-flex justify-content-center align-items-center mt-3">
+  <h1 class="title-galery">Galería fotográfica</h1>
 </div>
 
 <div *ngIf="user" class="d-flex justify-content-center align-items-center">
-  <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#subirModal">Sube una imagen aquí</button>
+  <button class="btn subir-button mt-3" data-bs-toggle="modal" data-bs-target="#subirModal">Sube una imagen aquí</button>
 </div>
 
 <div class="container-fluid">
@@ -30,7 +30,7 @@
           </ngx-dropzone-image-preview>
         </ngx-dropzone>
         <div class="d-flex justify-content-center">
-          <button class="mt-3 btn btn-primary"data-bs-dismiss="modal" (click)="subirImagen()">Comparte esta imagen</button>
+          <button class="mt-3 btn modal-button" data-bs-dismiss="modal" (click)="subirImagen()">Comparte esta imagen</button>
         </div>
       </div>
     </div>

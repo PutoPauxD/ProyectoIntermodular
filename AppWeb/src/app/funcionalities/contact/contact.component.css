@@ -1,8 +1,39 @@
 .custom-container {
-  border: 1px solid gray;
-  border-radius: 7px;
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 0 0 10px black;
 }
 
 textarea {
   height: 150px;
+}
+
+h1 {
+  font-family: Archivo;
+}
+
+.title-contact {
+  border-radius: 10px;
+  border-top-right-radius: 0%;
+  border-bottom-right-radius: 0%;
+}
+
+.contact-button {
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  font-family: Opensans-bold;
+}
+
+.contact-button:hover {
+  background-color: rgb(24, 24, 24);
+}
+
+label {
+  font-family: Opensans;
+  opacity: 0.7;
+}
+
+input {
+  border-radius: 10px;
 }

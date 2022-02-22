@@ -1,0 +1,13 @@
+.post-body {
+  border-radius: 10px;
+  margin-bottom: 5px;
+  font-family: Opensans;
+  transition: 0.3s ease-in-out;
+}
+
+.post-body:hover {
+  background-color: rgb(32, 32, 32);
+  cursor: pointer;
+  transform: translateY(-2px);
+  transition: 0.3s ease-in-out;
+}
