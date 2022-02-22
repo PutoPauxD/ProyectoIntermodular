@@ -14,6 +14,8 @@ import { GaleriaModule } from './funcionalities/galeria/galeria.module';
 import { ContactModule } from './funcionalities/contact/contact.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { PostContactoComponent } from './components/post-contacto/post-contacto.component';
+import { PostContactoModule } from './components/post-contacto/post-contacto.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     NgxDropzoneModule,
     ContactModule,
     GaleriaModule,
-    HttpClientModule
+    HttpClientModule,
+    PostContactoModule
   ],
   providers: [],
   bootstrap: [AppComponent]

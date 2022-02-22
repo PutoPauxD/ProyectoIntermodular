@@ -18,4 +18,8 @@ export class ImagenesService {
   getImagenes():Observable<any>{
     return this.http.get(this.url+"?imagenes=1");
   }
+
+  borrarImagen(id: any):Observable<any>{
+    return this.http.delete(this.url+"?borrarImagen="+id);
+  }
 }

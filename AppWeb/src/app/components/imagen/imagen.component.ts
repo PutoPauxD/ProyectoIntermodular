@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Imagen } from 'src/app/clases/imagen';
 import { User } from 'src/app/clases/user';
@@ -14,9 +14,16 @@ export class ImagenComponent implements OnInit {
   imagePath:SafeResourceUrl;
   usuario:User[];
   nombre:String;
+  user: User;
+  @Output() deleted: EventEmitter<any> = new EventEmitter<any>();
   constructor(private _sanitizer: DomSanitizer,private userService:UsuariosService) {}
 
   ngOnInit(): void {
+    if(this.userService.checkUserExist()) {
+      this.user = this.userService.checkUserExist();
+    } else {
+      this.userService.getUser().subscribe(user => {this.user = user});
+    }
     this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.data.url);
     this.userService.getUsuarios().subscribe(req => {
       this.usuario = req;
@@ -27,7 +34,9 @@ export class ImagenComponent implements OnInit {
       }
     });
   }
-
+  borrar(){
+    this.deleted.emit(this.data.id);
+  }
 
 
 }

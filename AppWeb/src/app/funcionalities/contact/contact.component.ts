@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Post } from 'src/app/clases/post';
 import { User } from 'src/app/clases/user';
 import { ContactarService } from 'src/app/services/contactar.service';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
@@ -13,10 +14,10 @@ export class ContactComponent implements OnInit {
 
   contactForm!: FormGroup;
   user:User;
-  userService:UsuariosService;
+  formulario:Post[];
 
 
-  constructor(private serviceContactar:ContactarService) {}
+  constructor(private serviceContactar:ContactarService, private userService:UsuariosService ) {}
 
   ngOnInit(): void {
     this.contactForm = new FormGroup({
@@ -24,6 +25,15 @@ export class ContactComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       mensaje: new FormControl('', [Validators.required, Validators.minLength(10)]),
     })
+
+    if(this.userService.checkUserExist()) {
+      this.user = this.userService.checkUserExist();
+      this.contactForm.setValue({name:this.user.name,
+        email:this.user.email,mensaje:""});
+    } else {
+      this.userService.getUser().subscribe(user => {this.user = user});
+    }
+    this.serviceContactar.getFormulario().subscribe(res=>this.formulario=res);
    }
 
   get nameField(): any {
