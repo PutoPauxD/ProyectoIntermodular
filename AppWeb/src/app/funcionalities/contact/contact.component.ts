@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/clases/post';
 import { User } from 'src/app/clases/user';
 import { ContactarService } from 'src/app/services/contactar.service';
@@ -17,7 +18,7 @@ export class ContactComponent implements OnInit {
   formulario:Post[];
 
 
-  constructor(private serviceContactar:ContactarService, private userService:UsuariosService ) {}
+  constructor(private serviceContactar:ContactarService, private userService:UsuariosService,private router:Router ) {}
 
   ngOnInit(): void {
     this.contactForm = new FormGroup({
@@ -51,6 +52,13 @@ export class ContactComponent implements OnInit {
   onSubmit(){
     this.serviceContactar.insertarFormulario(this.contactForm.value).subscribe();
     this.contactForm.reset();
+    let currentUrl = this.router.url;
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+        });
   }
 
+  onDeleteContact(iControl:number,id:number):void{
+    this.serviceContactar.borrarContact(id).subscribe(res=>{ this.formulario.splice(iControl, 1);});
+  }
 }

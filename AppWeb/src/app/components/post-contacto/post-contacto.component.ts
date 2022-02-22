@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/clases/user';
 import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 
@@ -9,11 +9,14 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 })
 export class PostContactoComponent implements OnInit {
   @Input('postContacto') data!: any;
-
+  @Output() deleted: EventEmitter<any> = new EventEmitter<any>();
   constructor(private userService:UsuariosService) { }
 
   ngOnInit(): void {
 
   }
 
+  borrar(){
+    this.deleted.emit(this.data.id);
+  }
 }

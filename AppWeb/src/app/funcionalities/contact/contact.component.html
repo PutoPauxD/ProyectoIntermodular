@@ -1,7 +1,8 @@
+<div class="container-lg">
 <ng-template [ngIf]="user" [ngIfElse]="elseUser1" >
 
 <div class="col py-3" *ngIf="user.tipe ==0">
-  <app-post-contacto *ngFor="let p of formulario"  [postContacto]="p"></app-post-contacto>
+  <app-post-contacto *ngFor="let p of formulario; let iControl=index"  [postContacto]="p" (deleted)="onDeleteContact(iControl,p.id)"></app-post-contacto>
 </div>
 <div class="col py-3 bg-light" *ngIf="user.tipe ==1">
   <!--zona de contenido-->
@@ -38,7 +39,7 @@
           </div>
 
           <div class="d-flex justify-content-center align-content-center">
-            <button data-bs-dismiss="modal" type="submit" class="my-3 btn contact-button w-50">Contacta con nosotros</button>
+            <button [disabled]="contactForm.invalid" type="submit" class="my-3 btn contact-button w-50">Contacta con nosotros</button>
           </div>
         </form>
       </div>
@@ -64,26 +65,22 @@
             <input formControlName="name" [class.is-invalid]="nameField.touched && nameField.invalid" type="text"
               class="form-control w-100" id="name" placeholder="Nombre">
               <label for="name">Nombre</label>
-            <div *ngIf="nameField.touched && nameField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Nombre.</div>
-            <div *ngIf="nameField.touched && nameField.hasError('name')" class="d-block invalid-feedback">Nombre no es válido.</div>
-          </div>
+            <div *ngIf="nameField.touched && nameField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Nombre.</div>          </div>
 
           <div class="mb-4 form-floating">
             <input formControlName="email" [class.is-invalid]="emailField.touched && emailField.invalid" type="email"
               class="form-control w-100" id="email" placeholder="Email">
               <label for="email">nombre1234@gmail.com</label>
             <div *ngIf="emailField.touched && emailField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce Email.</div>
-            <div *ngIf="emailField.touched && emailField.hasError('email')" class="d-block invalid-feedback">Email no es válido.</div>
           </div>
 
           <div class="mb-2 w-100">
             <textarea formControlName="mensaje"  class="form-control w-100" name="message" [class.is-invalid]="messageField.touched && messageField.invalid" id="message" cols="30" rows="10" placeholder="Deja un comentario aquí..."></textarea>
             <div *ngIf="messageField.touched && messageField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce un comentario.</div>
-            <div *ngIf="messageField.touched && messageField.hasError('message')" class="d-block invalid-feedback">Comentario no es válido.</div>
           </div>
 
           <div class="d-flex justify-content-center align-content-center">
-            <button data-bs-dismiss="modal" type="submit" class="my-3 btn contact-button w-50">Contacta con nosotros</button>
+            <button [disabled]="contactForm.invalid" type="submit" class="my-3 btn contact-button w-50">Contacta con nosotros</button>
           </div>
         </form>
       </div>
@@ -93,3 +90,4 @@
 
 
 </ng-template>
+</div>

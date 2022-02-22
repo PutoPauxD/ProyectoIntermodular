@@ -56,6 +56,27 @@ if(isset($_GET["contactar"])){
 }
 
 // Consulta datos y recepciona una clave para consultar dichos datos con dicha clave
+if (isset($_GET["formulario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM formulario");
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+//borrar pero se le debe de enviar una clave ( para borrado )
+if (isset($_GET["borrarContact"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM formulario WHERE id=".$_GET["borrarContact"]);
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+// Consulta datos y recepciona una clave para consultar dichos datos con dicha clave
 if (isset($_GET["imagenes"])){
     $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM imagenes");
     if(mysqli_num_rows($sqlEmpleaados) > 0){
@@ -77,6 +98,15 @@ if(isset($_GET["imagen"])){
     echo json_encode(["success"=>1]);
         }
     exit();
+}
+//borrar pero se le debe de enviar una clave ( para borrado )
+if (isset($_GET["borrarImagen"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM imagenes WHERE id=".$_GET["borrarImagen"]);
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
 }
 //Inserta un nuevo post 
 if(isset($_GET["posts"])){
@@ -142,6 +172,7 @@ if (isset($_GET["usuariosVer"])){
     }
     else{  echo json_encode(["success"=>0]); }
 }
+
 
 if(isset($_GET["publicar"])){
 

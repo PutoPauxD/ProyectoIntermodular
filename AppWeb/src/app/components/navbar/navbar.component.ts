@@ -71,21 +71,33 @@ export class NavbarComponent {
         sessionStorage.setItem('user',JSON.stringify(res[0]));
         this.user = res[0];
         this.userService.setUser(this.user);
+        document.getElementById("loguear").setAttribute('data-bs-dismiss',"modal");
+        document.getElementById("loguear").click();
+        this.loginForm.reset();
+        let currentUrl = this.router.url;
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+        });
       };
       },
       error => {alert("Error al acceder, pruebe de nuevo.")}
       //()=>console.log("si hay posts para publicar")
       );
   }
-
   closeLogin(): void {
     this.loginForm.reset();
   }
 
   onSubmit() {
-    this.userService.insertarUser(this.registerForm.value).subscribe();
-    this.router.navigateByUrl('/home');
-    this.registerForm.reset();
+    this.userService.insertarUser(this.registerForm.value).subscribe(res=>{
+      document.getElementById("re").setAttribute('data-bs-dismiss',"modal");
+      document.getElementById("re").click();
+      this.registerForm.reset();
+      this.router.navigateByUrl('/home');
+    },
+    error=>{alert("Error al registrarse, pruebe de nuevo.")});
+
+
   }
 
   logout(){

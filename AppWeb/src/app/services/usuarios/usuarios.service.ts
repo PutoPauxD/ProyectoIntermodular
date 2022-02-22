@@ -17,7 +17,10 @@ export class UsuariosService {
   constructor(private http: HttpClient) { }
 
   insertarUser(user:User): Observable<any>{
-    return this.http.post(this.url+"?insertar=1",user);
+    return this.http.post(this.url+"?insertar=1",user).pipe(
+      catchError((resp: HttpErrorResponse)=>
+        throwError(`Error al acceder, ${resp.message}`))
+    );
   }
   login(email:any, contrasenia:any):Observable<any>{
     return this.http.get(this.url+"?login="+email+"&contrasenia="+contrasenia).pipe(
