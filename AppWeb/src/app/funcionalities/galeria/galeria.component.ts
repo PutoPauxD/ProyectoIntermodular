@@ -17,6 +17,7 @@ export class GaleriaComponent implements OnInit {
   imgDetails:any[]=[];
   array:User[];
   ob:Imagen={
+    id:0,
   url:"",
   usuario_id:0
 
@@ -73,10 +74,12 @@ export class GaleriaComponent implements OnInit {
     const imgAsubir = this.imgDetails[0].content;
     this.ob.usuario_id = Number(this.user.id);
     this.ob.url = imgAsubir;
-    this.imagenes.push(this.ob);
-    this.imagenesService.insertarImagen(this.ob).subscribe();
-  }
 
+    this.imagenesService.insertarImagen(this.ob).subscribe(res=>this.imagenes.push(this.ob));
+  }
+  onDeleteImagen(iControl:number,id:number):void{
+    this.imagenesService.borrarImagen(id).subscribe(res=>{ this.imagenes.splice(iControl, 1);});
+  }
 
 
 

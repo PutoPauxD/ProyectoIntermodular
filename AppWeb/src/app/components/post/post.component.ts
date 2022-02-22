@@ -16,14 +16,15 @@ export class PostComponent implements OnInit {
   @Input('post') data!: Post;
 
   constructor(private postsService: PostsService, private userService:UsuariosService) {
+
+  }
+
+  ngOnInit(): void {
     if(this.userService.checkUserExist()) {
       this.user = this.userService.checkUserExist();
     } else {
       this.userService.getUser().subscribe(user => {this.user = user});
     }
-  }
-
-  ngOnInit(): void {
     this.userService.getUsuarios().subscribe(req => {
       this.usuario = req;
       for(let i=0;i<this.usuario.length;i++){

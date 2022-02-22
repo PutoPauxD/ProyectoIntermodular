@@ -11,4 +11,7 @@ export class ContactarService {
   insertarFormulario(form:any): Observable<any>{
     return this.http.post(this.url+"?contactar=1",form);
   }
+  getFormulario():Observable<any>{
+    return this.http.get(this.url+"?formulario=1");
+  }
 }
