@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Post } from 'src/app/clases/post';
 import { User } from 'src/app/clases/user';
 import { PostsService } from 'src/app/services/posts.service';
@@ -14,12 +15,17 @@ export class PostComponent implements OnInit {
   nombre:string;
   user: User;
   @Input('post') data!: Post;
+  comentarioForm!: FormGroup;
+
 
   constructor(private postsService: PostsService, private userService:UsuariosService) {
 
   }
 
   ngOnInit(): void {
+    this.comentarioForm = new FormGroup({
+      message: new FormControl('', [Validators.required, Validators.minLength(10)])
+    });
     if(this.userService.checkUserExist()) {
       this.user = this.userService.checkUserExist();
     } else {
@@ -35,4 +41,19 @@ export class PostComponent implements OnInit {
     });
   }
 
+  get contentField(): any {
+    return this.comentarioForm.get('message');
+  }
+
+  closeComentarioForm(): void {
+    this.comentarioForm.reset();
+  }
+  comentarioFormSubmit() {
+    this.postsService.putComentario({mensaje:this.comentarioForm.get('message').value,post_id:Number(localStorage.getItem("id")),usuario_id:this.user.id}).subscribe();
+    this.comentarioForm.reset();
+  }
+
+  abrirComentario(evento:Post){
+    localStorage.setItem("id",""+evento.id);
+  }
 }

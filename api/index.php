@@ -32,13 +32,53 @@ if(isset($_GET["insertar"])){
             
         $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO usuarios(name,password,email,tipe) VALUES('$nombre','$contrasenia','$correo',1) ");
         if(mysqli_error($conexionBD)){
+        
             echo json_encode(["success"=>0]);
         }else{
             echo json_encode(["success"=>1]);
+            exit();
         }
+        } 
+}
+
+//Inserta un nuevo comentario
+if(isset($_GET["comentario"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $mensaje=$data->mensaje;
+    $post_id=$data->post_id;
+    $usuario_id=$data->usuario_id;
+        if($mensaje!=""){
+            
+        $sqlEmpleaados = mysqli_query($conexionBD,"INSERT INTO comentarios(contenido,post_id,usuario_id) VALUES('$mensaje',$post_id,$usuario_id) ");
+        if(mysqli_error($conexionBD)){
         
+            echo json_encode(["success"=>0]);
+        }else{
+            echo json_encode(["success"=>1]);
+            exit();
         }
-    exit();
+        } 
+}
+
+// Consulta comentarios
+if (isset($_GET["comentarios"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"SELECT * FROM comentarios");
+    if(mysqli_num_rows($sqlEmpleaados) > 0){
+        $empleaados = mysqli_fetch_all($sqlEmpleaados,MYSQLI_ASSOC);
+        echo json_encode($empleaados);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
+
+//borrar comentario
+if (isset($_GET["borrarComentario"])){
+    $sqlEmpleaados = mysqli_query($conexionBD,"DELETE FROM comentarios WHERE id=".$_GET["borrarComentario"]);
+    if($sqlEmpleaados){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
 }
 
 //Inserta un nuevo registro y recepciona en método post los datos de nombre y correo

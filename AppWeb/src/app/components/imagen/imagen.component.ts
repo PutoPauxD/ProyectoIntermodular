@@ -16,17 +16,16 @@ export class ImagenComponent implements OnInit {
   nombre:String;
   user: User;
   @Output() deleted: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private _sanitizer: DomSanitizer,private userService:UsuariosService) {}
+  constructor(private _sanitizer: DomSanitizer,private userService:UsuariosService) {if(this.userService.checkUserExist()) {
+    this.user = this.userService.checkUserExist();
+  } else {
+    this.userService.getUser().subscribe(user => {this.user = user});
+  }}
 
-  ngOnInit(): void {
-    if(this.userService.checkUserExist()) {
-      this.user = this.userService.checkUserExist();
-    } else {
-      this.userService.getUser().subscribe(user => {this.user = user});
-    }
+  ngOnInit() {
     this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'+ this.data.url);
     this.userService.getUsuarios().subscribe(req => {
-      this.usuario = req;
+      this.usuario = req
       for(let i=0;i<this.usuario.length;i++){
         if(this.usuario[i].id === this.data.usuario_id){
           this.nombre=this.usuario[i].name;

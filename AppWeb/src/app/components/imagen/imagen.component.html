@@ -2,12 +2,12 @@
   <div class="text-center">
 
       <img [src]="imagePath" alt="Card image">
-      <h3>Imagen subida por: {{ nombre }}</h3>
+      <h3>Autor: {{ nombre }}</h3>
       <ng-template [ngIf]="user">
       <a class="btn trash" *ngIf="user.tipe == 0" role="button" (click)="borrar()" ><i class="fs-4 bi-trash text-danger" style="width:70px"></i></a>
       <div *ngIf="user.tipe == 1">
       <a class="btn trash" *ngIf="user.id == data.usuario_id" role="button" (click)="borrar()" ><i class="fs-4 bi-trash text-danger" style="width:70px"></i></a>
       </div>
-    </ng-template>
+      </ng-template>
 </div>
 </div>

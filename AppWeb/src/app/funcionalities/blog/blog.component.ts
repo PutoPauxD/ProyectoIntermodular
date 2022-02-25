@@ -15,7 +15,6 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
   styleUrls: ['./blog.component.css']
 })
 export class BlogComponent implements OnInit {
-  render$:Observable<any[]>;
   user: User;
   postForm!: FormGroup;
   todosPosts: Post[] = [];
@@ -40,8 +39,6 @@ export class BlogComponent implements OnInit {
       title: new FormControl('', [Validators.required]),
       message: new FormControl('', [Validators.required, Validators.minLength(10)])
     });
-
-    this.render$= this.postsService.getPosts().pipe(shareReplay());
     this.postsService.getPosts().subscribe(res=>{this.postsVer = res});
     this.postsService.getPostsNoVer().subscribe(res2 => {this.postsNoVer = res2});
 
@@ -69,7 +66,6 @@ export class BlogComponent implements OnInit {
   }
 
   postFormSubmit(): void {
-    console.log(this.user.id);
     let p: Post = {
       titulo: this.postForm.get('title').value,
       mensaje: this.postForm.get('message').value,

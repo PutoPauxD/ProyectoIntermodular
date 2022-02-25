@@ -55,7 +55,6 @@ export class NavbarComponent {
     let u = JSON.parse(sessionStorage.getItem('user'));
       if(u){
         this.user = u;
-        console.log(u)
         this.userService.setUser(u);
       }
   }
@@ -65,7 +64,6 @@ export class NavbarComponent {
       let u = JSON.parse(sessionStorage.getItem('user'));
       if(u){
         this.user = u;
-        console.log(u)
         this.userService.setUser(u);
       }else{
         sessionStorage.setItem('user',JSON.stringify(res[0]));
@@ -81,21 +79,23 @@ export class NavbarComponent {
       };
       },
       error => {alert("Error al acceder, pruebe de nuevo.")}
-      //()=>console.log("si hay posts para publicar")
       );
   }
   closeLogin(): void {
     this.loginForm.reset();
+    this.registerForm.reset();
   }
 
   onSubmit() {
-    this.userService.insertarUser(this.registerForm.value).subscribe(res=>{
+    this.userService.insertarUser(this.registerForm.value).subscribe(()=>{
       document.getElementById("re").setAttribute('data-bs-dismiss',"modal");
       document.getElementById("re").click();
       this.registerForm.reset();
-      this.router.navigateByUrl('/home');
-    },
-    error=>{alert("Error al registrarse, pruebe de nuevo.")});
+      let currentUrl = this.router.url;
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+        });
+    });
 
 
   }

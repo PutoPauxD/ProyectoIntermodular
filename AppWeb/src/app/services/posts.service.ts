@@ -42,4 +42,16 @@ export class PostsService {
   borrarPosts(id: any):Observable<any>{
     return this.http.delete(this.url+"?borrar="+id);
   }
+
+  putComentario(comentario:any):Observable<any> {
+    return this.http.post(this.url+"?comentario=1", comentario);
+  }
+
+  getComentarios():Observable<any>{
+    return this.http.get(this.url+"?comentarios=1");
+  }
+
+  borrarComentario(id: any):Observable<any>{
+    return this.http.delete(this.url+"?borrarComentario="+id);
+  }
 }

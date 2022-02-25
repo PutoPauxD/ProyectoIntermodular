@@ -13,15 +13,17 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 export class GaleriaComponent implements OnInit {
   user:User;
   imagenes: Imagen[] = [];
+  todaslasimagenes: Imagen[] = [];
   files: File[] = [];
   imgDetails:any[]=[];
   array:User[];
+  usersconimagenes:User[]=[];
   ob:Imagen={
     id:0,
-  url:"",
-  usuario_id:0
-
+    url:"",
+    usuario_id:0
   };
+  selected:User=undefined;
   constructor(
     private imagenesService: ImagenesService,
     private userService:UsuariosService,
@@ -32,18 +34,36 @@ export class GaleriaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.imagenesService.getImagenes().subscribe(res=>this.imagenes=res);
     if(this.userService.checkUserExist()) {
       this.user = this.userService.checkUserExist();
     } else {
       this.userService.getUser().subscribe(user => {this.user = user});
     }
+    this.imagenesService.getImagenes().subscribe(res=>{this.todaslasimagenes = res
+      this.userService.getUsuarios().subscribe(req => {
+        this.array = req;
+        for(let i=0;i<this.array.length;i++){
+          for(let o=0;o<this.todaslasimagenes.length;o++){
+            if(this.array[i].id === this.todaslasimagenes[o].usuario_id){
+                this.usersconimagenes.push(this.array[i]);
+            }
+          }
+        };
+        let reult = this.usersconimagenes.filter((item,index)=>{
+          return this.usersconimagenes.indexOf(item) === index;
+        });
+
+        this.usersconimagenes = reult;
+      });
+      this.imagenes=this.todaslasimagenes;
+    });
+
   }
 
 
   onRemove(event: any) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
+    this.imgDetails = [];
   }
 
   onSelect(event: any) {
@@ -58,7 +78,6 @@ export class GaleriaComponent implements OnInit {
           });
       }
     }
-    console.log(this.imgDetails);
   }
 
   convertToBase64 = (file:File):Promise<string> => {
@@ -70,17 +89,94 @@ export class GaleriaComponent implements OnInit {
     })
   }
   subirImagen() {
-    console.log(this.user.id)
     const imgAsubir = this.imgDetails[0].content;
-    this.ob.usuario_id = Number(this.user.id);
+    this.ob.usuario_id = this.user.id;
     this.ob.url = imgAsubir;
 
-    this.imagenesService.insertarImagen(this.ob).subscribe(res=>this.imagenes.push(this.ob));
+    this.imagenesService.insertarImagen(this.ob).subscribe(res=>{
+      this.imagenesService.getImagenes().subscribe(res=>{this.todaslasimagenes = res
+        this.imagenes=[];
+        if(!this.selected){
+          this.imagenes = this.todaslasimagenes;
+        }else{
+          for(let i=0;i<this.todaslasimagenes.length;i++){
+            if(this.todaslasimagenes[i].usuario_id === this.selected.id){
+                this.imagenes.push(this.todaslasimagenes[i]);
+            }
+          }
+        }
+        this.usersconimagenes = [];
+        for(let i=0;i<this.array.length;i++){
+          for(let o=0;o<this.todaslasimagenes.length;o++){
+            if(this.array[i].id === this.todaslasimagenes[o].usuario_id){
+                this.usersconimagenes.push(this.array[i]);
+            }
+          }
+        };
+        this.usersconimagenes = this.usersconimagenes.filter((item,index)=>{
+          return this.usersconimagenes.indexOf(item) === index;
+        });
+      });
+      this.imgDetails = [];
+
+
+    });
+    this.files = [];
   }
   onDeleteImagen(iControl:number,id:number):void{
-    this.imagenesService.borrarImagen(id).subscribe(res=>{ this.imagenes.splice(iControl, 1);});
+    this.imagenesService.borrarImagen(id).subscribe(res=>{
+        this.imagenes.splice(iControl, 1);
+        if(this.imagenes.length === 0){
+          this.selected = undefined;
+          this.imagenesService.getImagenes().subscribe(res=>{this.imagenes = res
+            this.usersconimagenes=[];
+            for(let i=0;i<this.array.length;i++){
+              for(let o=0;o<this.imagenes.length;o++){
+                if(this.array[i].id === this.imagenes[o].usuario_id){
+                    this.usersconimagenes.push(this.array[i]);
+                }
+              }
+            };
+            this.usersconimagenes = this.usersconimagenes.filter((item,index)=>{
+              return this.usersconimagenes.indexOf(item) === index;
+            });
+          });
+        }else{
+          this.imagenesService.getImagenes().subscribe(res=>{this.todaslasimagenes = res
+            this.usersconimagenes=[];
+            for(let i=0;i<this.array.length;i++){
+              for(let o=0;o<this.todaslasimagenes.length;o++){
+                if(this.array[i].id === this.todaslasimagenes[o].usuario_id){
+                    this.usersconimagenes.push(this.array[i]);
+                }
+              }
+            };
+            this.usersconimagenes = this.usersconimagenes.filter((item,index)=>{
+              return this.usersconimagenes.indexOf(item) === index;
+            });
+          });
+        }
+
+
+
+    });
   }
 
+  cambiar(){
+    this.imagenesService.getImagenes().subscribe(res=>{this.todaslasimagenes = res
+      this.imagenes=[];
+      if(!this.selected){
+        this.imagenes = this.todaslasimagenes;
+      }else{
+        for(let i=0;i<this.todaslasimagenes.length;i++){
+          if(this.todaslasimagenes[i].usuario_id === this.selected.id){
+              this.imagenes.push(this.todaslasimagenes[i]);
+          }
+        }
+      }
+
+    });
+  }
 
 
 }

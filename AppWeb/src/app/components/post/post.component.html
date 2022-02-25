@@ -1,8 +1,71 @@
+<ng-template [ngIf]="user" [ngIfElse]="no">
+  <ng-template [ngIf]="user.tipe == 1" [ngIfElse]="administrador">
+  <ng-template [ngIf]="user.id == data.usuario_id" [ngIfElse]="comentar">
+    <div [routerLink]="['/blog',data.id]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" class="bg-light text-dark list-group-item list-group-item-action flex-column align-items-start post-body">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1 fw-bold">{{data.titulo}}</h5>
+      </div>
+        <p class="mb-1">{{data.mensaje}}</p>
+        <small>Autor: {{nombre}}</small>
+    </div>
+  </ng-template >
+  <ng-template #comentar>
+    <a data-bs-toggle="modal" (click)="abrirComentario(data)" data-bs-target="#comentariosModal" class="nav-link px-0 align-middle menu-content">
+      <div class="bg-light text-dark list-group-item list-group-item-action flex-column align-items-start post-body">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fw-bold">{{data.titulo}}</h5>
+        </div>
+          <p class="mb-1">{{data.mensaje}}</p>
+          <small>Autor: {{nombre}}</small>
+      </div>
+    </a>
+  </ng-template>
+  </ng-template>
+  <ng-template #administrador>
+      <div [routerLink]="['/blog',data.id]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" class="bg-light text-dark list-group-item list-group-item-action flex-column align-items-start post-body">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 fw-bold">{{data.titulo}}</h5>
+        </div>
+          <p class="mb-1">{{data.mensaje}}</p>
+          <small>Autor: {{nombre}}</small>
+      </div>
+  </ng-template>
+</ng-template>
 
- <div class="bg-light text-dark list-group-item list-group-item-action flex-column align-items-start post-body">
-  <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1 fw-bold">{{data.titulo}}</h5>
+<ng-template #no>
+  <div class="bg-light text-dark list-group-item list-group-item-action flex-column align-items-start post-body">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 fw-bold">{{data.titulo}}</h5>
+    </div>
+    <p class="mb-1">{{data.mensaje}}</p>
+    <small>Autor: {{nombre}}</small>
   </div>
-  <p class="mb-1">{{data.mensaje}}</p>
-  <small>Autor: {{nombre}}</small>
+</ng-template>
+
+<!--Modal crear post-->
+<div class="modal fade mt-sm-5" id="comentariosModal">
+  <div class="modal-dialog modal-fullscreen-sm-down">
+      <div class="modal-content">
+
+  <!-- Modal Header -->
+          <div class="modal-header">
+              <h4 class="modal-title">Crear nuevo comentario</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeComentarioForm()"></button>
+          </div>
+
+  <!-- Modal body -->
+          <div class="modal-body">
+              <p>Nuevo comentario</p>
+              <form autocomplete="off" [formGroup]="comentarioForm" (ngSubmit)="comentarioFormSubmit()" class="mt-2">
+                  <div class="mb-3">
+                    <textarea class="form-control" id="textarea" formControlName="message" [class.is-invalid]="contentField.touched && contentField.invalid" placeholder="Contenido de tu comentario" rows="5" required></textarea>
+                    <div *ngIf="contentField.touched && contentField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce tu mensaje. Mínimo 10 carácteres.
+                    </div>
+                  </div>
+
+                  <button [disabled]="comentarioForm.invalid" type="submit" data-bs-dismiss="modal" class=" mt-3 btn aceptar-button w-100">Añadir comentario</button>
+              </form>
+          </div>
+      </div>
+  </div>
 </div>

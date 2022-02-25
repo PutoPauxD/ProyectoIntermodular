@@ -16,12 +16,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { PostContactoComponent } from './components/post-contacto/post-contacto.component';
 import { PostContactoModule } from './components/post-contacto/post-contacto.module';
+import { ComentariosComponent } from './components/comentarios/comentarios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
+    ComentariosComponent,
   ],
   imports: [
     BrowserModule,

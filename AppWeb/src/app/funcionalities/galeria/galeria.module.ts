@@ -4,6 +4,8 @@ import { GaleriaComponent } from './galeria.component';
 import { ImagenComponent } from 'src/app/components/imagen/imagen.component';
 import { ImagenModule } from 'src/app/components/imagen/imagen.module';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PostModule } from 'src/app/components/post/post.module';
 
 
 @NgModule({
@@ -13,7 +15,10 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
   imports: [
     CommonModule,
     ImagenModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    PostModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class GaleriaModule { }
