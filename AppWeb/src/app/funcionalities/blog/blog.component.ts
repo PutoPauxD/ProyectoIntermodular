@@ -19,7 +19,7 @@ export class BlogComponent implements OnInit {
   postForm!: FormGroup;
   todosPosts: Post[] = [];
   postsNoVer: Post[] = [];
-  postsVer: Post[] = [];
+  postsVer: Post[]=[];
   usuario: User[] = [];
   selected: Post;
 
@@ -39,7 +39,19 @@ export class BlogComponent implements OnInit {
       title: new FormControl('', [Validators.required]),
       message: new FormControl('', [Validators.required, Validators.minLength(10)])
     });
-    this.postsService.getPosts().subscribe(res=>{this.postsVer = res});
+    this.postsService.getPosts().subscribe(res=>{this.postsVer = res;
+      this.userService.getUsuarios().subscribe(res=>{
+        this.usuario = res;
+        for(let i=0;i<this.usuario.length;i++){
+          for(let o=0;o<this.postsVer.length;o++){
+            if(this.usuario[i].id === this.postsVer[o].usuario_id){
+              this.postsVer[o].nombre = this.usuario[i].name;
+            }
+          }
+        }
+
+      });
+    });
     this.postsService.getPostsNoVer().subscribe(res2 => {this.postsNoVer = res2});
 
     }
@@ -80,6 +92,13 @@ export class BlogComponent implements OnInit {
   publicar(){
     this.postsService.setPublicada(this.selected.id).subscribe();
     this.postsVer.push(this.selected);
+    for(let i=0;i<this.usuario.length;i++){
+      for(let o=0;o<this.postsVer.length;o++){
+        if(this.usuario[i].id === this.postsVer[o].usuario_id){
+          this.postsVer[o].nombre = this.usuario[i].name;
+        }
+      }
+    }
   }
 
   borrar(iControl:any, id:any){

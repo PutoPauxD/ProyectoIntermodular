@@ -11,8 +11,8 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 })
 export class ComentariosComponent implements OnInit {
   id:number;
-  usuario:User[];
-  array:any[];
+  usuario:User[]=[];
+  array:any[]=[];
   comentariosver:any[]=[];
   constructor(private router: Router,private route:ActivatedRoute,private postService:PostsService,private userService:UsuariosService) { }
 
@@ -34,14 +34,17 @@ export class ComentariosComponent implements OnInit {
             this.comentariosver[o].name = this.usuario[i].name;
           }
         }
-
       }
     });
     });
 
   }
   borrar(iControl:number,id:number){
-    this.postService.borrarComentario(id).subscribe(res=>this.comentariosver.splice(iControl, 1));
+    this.postService.borrarComentario(id).subscribe(res=>{this.comentariosver.splice(iControl, 1)
+    if(this.comentariosver.length===0){
+      this.router.navigate(["/blog"]);
+    }
+    });
 
   }
 

@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS comentarios (
     CONSTRAINT `fk_comentarios_posts` 
         FOREIGN KEY (post_id) REFERENCES posts (id) 
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS valoraciones (

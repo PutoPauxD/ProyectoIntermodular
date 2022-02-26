@@ -16,7 +16,7 @@ export class GaleriaComponent implements OnInit {
   todaslasimagenes: Imagen[] = [];
   files: File[] = [];
   imgDetails:any[]=[];
-  array:User[];
+  array:User[]=[];
   usersconimagenes:User[]=[];
   ob:Imagen={
     id:0,
@@ -106,16 +106,21 @@ export class GaleriaComponent implements OnInit {
           }
         }
         this.usersconimagenes = [];
-        for(let i=0;i<this.array.length;i++){
-          for(let o=0;o<this.todaslasimagenes.length;o++){
-            if(this.array[i].id === this.todaslasimagenes[o].usuario_id){
-                this.usersconimagenes.push(this.array[i]);
+        if(this.array.length ===0){
+          this.usersconimagenes.push(this.user);
+        }else{
+          for(let i=0;i<this.array.length;i++){
+            for(let o=0;o<this.todaslasimagenes.length;o++){
+              if(this.array[i].id === this.todaslasimagenes[o].usuario_id){
+                  this.usersconimagenes.push(this.array[i]);
+              }
             }
-          }
-        };
-        this.usersconimagenes = this.usersconimagenes.filter((item,index)=>{
-          return this.usersconimagenes.indexOf(item) === index;
-        });
+          };
+          this.usersconimagenes = this.usersconimagenes.filter((item,index)=>{
+            return this.usersconimagenes.indexOf(item) === index;
+          });
+        }
+
       });
       this.imgDetails = [];
 
@@ -126,10 +131,11 @@ export class GaleriaComponent implements OnInit {
   onDeleteImagen(iControl:number,id:number):void{
     this.imagenesService.borrarImagen(id).subscribe(res=>{
         this.imagenes.splice(iControl, 1);
+        this.usersconimagenes=[];
         if(this.imagenes.length === 0){
           this.selected = undefined;
           this.imagenesService.getImagenes().subscribe(res=>{this.imagenes = res
-            this.usersconimagenes=[];
+
             for(let i=0;i<this.array.length;i++){
               for(let o=0;o<this.imagenes.length;o++){
                 if(this.array[i].id === this.imagenes[o].usuario_id){

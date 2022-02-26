@@ -106,9 +106,17 @@ export class NavbarComponent {
     sessionStorage.clear();
     this.userService.setUser(this.user);
     let currentUrl = this.router.url;
+
+    if(currentUrl.includes("/blog/")){
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate(["/blog"]);
+      });
+    }else{
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
       });
+    }
+
   }
 
 }

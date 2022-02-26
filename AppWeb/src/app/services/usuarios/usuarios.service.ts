@@ -12,9 +12,10 @@ export class UsuariosService {
   private url:string = "http://localhost/api/";
   public $user: Subject<User> = new Subject<User>();
   public user: User;
+  public users:User[];
 
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   insertarUser(user:User): Observable<any>{
     return this.http.post(this.url+"?insertar=1",user);
@@ -29,9 +30,20 @@ export class UsuariosService {
   getUsuarios():Observable<any>{
     return this.http.get(this.url);
   }
+
   setUser(user: User): void {
     this.$user.next(user);
     this.user = user;
+  }
+
+  setUsers(){
+    this.getUsuarios().subscribe(res=>{
+      this.users = res;
+    });
+  }
+
+  getUsers(){
+    return this.users;
   }
 
   getUser(): Observable<User> {

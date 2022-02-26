@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { observable, Observable, of, shareReplay, timer } from 'rxjs';
 import { Post } from 'src/app/clases/post';
 import { User } from 'src/app/clases/user';
 import { PostsService } from 'src/app/services/posts.service';
@@ -11,14 +12,18 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  usuario:User[];
-  nombre:string;
+  array:any[]=[];
+  $abrir:boolean;
+  id:number;
   user: User;
-  @Input('post') data!: Post;
+  @Input('post') dataarray!: Post[];
   comentarioForm!: FormGroup;
+  auxRating: number=0;
+  rating: number=0;
 
+  @Output() ratingChanged = new EventEmitter<number>();
 
-  constructor(private postsService: PostsService, private userService:UsuariosService) {
+  constructor(private zone:NgZone,private postsService: PostsService, private userService:UsuariosService) {
 
   }
 
@@ -31,14 +36,7 @@ export class PostComponent implements OnInit {
     } else {
       this.userService.getUser().subscribe(user => {this.user = user});
     }
-    this.userService.getUsuarios().subscribe(req => {
-      this.usuario = req;
-      for(let i=0;i<this.usuario.length;i++){
-        if(this.usuario[i].id === this.data.usuario_id){
-          this.nombre=this.usuario[i].name;
-        }
-      }
-    });
+    this.postsService.getComentarios().subscribe((res:any)=>{this.array=res},error=>{console.log(error)});
   }
 
   get contentField(): any {
@@ -49,11 +47,33 @@ export class PostComponent implements OnInit {
     this.comentarioForm.reset();
   }
   comentarioFormSubmit() {
-    this.postsService.putComentario({mensaje:this.comentarioForm.get('message').value,post_id:Number(localStorage.getItem("id")),usuario_id:this.user.id}).subscribe();
+    this.postsService.putComentario({mensaje:this.comentarioForm.get('message').value,post_id:this.id,usuario_id:this.user.id}).subscribe(res=>this.postsService.getComentarios().subscribe((res:any)=>{this.array=res},error=>{console.log(error)}));
     this.comentarioForm.reset();
   }
 
-  abrirComentario(evento:Post){
-    localStorage.setItem("id",""+evento.id);
+  abrirComentario(post:Post){
+        this.id = post.id;
+        console.log(this.array);
+        if(this.array.length===0){
+          this.$abrir=true;
+        }else{
+          this.$abrir=true;
+          for(let i=0;i<this.array.length;i++){
+            if(this.array[i].post_id === post.id && this.array[i].usuario_id === this.user.id){
+
+                this.$abrir = false;
+
+            }
+          }
+        }
   }
+  restoreRating() {
+    this.auxRating = this.rating;
+  }
+
+  setRating() {
+    this.rating=this.auxRating;
+    }
+
+
 }

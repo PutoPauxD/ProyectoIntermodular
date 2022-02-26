@@ -48,7 +48,10 @@ export class PostsService {
   }
 
   getComentarios():Observable<any>{
-    return this.http.get(this.url+"?comentarios=1");
+    return this.http.get(this.url+"?comentarios=1").pipe(
+      catchError((resp: HttpErrorResponse)=>
+        throwError(`Error al obtener comentarios, ${resp.message}`))
+    );
   }
 
   borrarComentario(id: any):Observable<any>{

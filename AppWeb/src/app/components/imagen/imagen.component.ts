@@ -12,7 +12,7 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
 export class ImagenComponent implements OnInit {
   @Input('imagen') data!: Imagen;
   imagePath:SafeResourceUrl;
-  usuario:User[];
+  usuario:User[]=[];
   nombre:String;
   user: User;
   @Output() deleted: EventEmitter<any> = new EventEmitter<any>();
