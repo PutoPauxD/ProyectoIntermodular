@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Post } from 'src/app/clases/post';
 import { User } from 'src/app/clases/user';
@@ -18,7 +19,9 @@ export class ContactComponent implements OnInit {
   formulario:Post[];
 
 
-  constructor(private serviceContactar:ContactarService, private userService:UsuariosService,private router:Router ) {}
+  constructor(private title: Title,private serviceContactar:ContactarService, private userService:UsuariosService,private router:Router ) {
+    this.title.setTitle("Contacto");
+  }
 
   ngOnInit(): void {
     this.contactForm = new FormGroup({

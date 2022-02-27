@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class UsuariosService {
 
-  private url:string = "http://localhost/api/";
+  private url:string = "http://localhost/dist/api/";
   public $user: Subject<User> = new Subject<User>();
   public user: User;
   public users:User[];

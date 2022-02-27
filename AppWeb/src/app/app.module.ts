@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { AppComponent } from './app.component';
@@ -17,13 +17,15 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { PostContactoComponent } from './components/post-contacto/post-contacto.component';
 import { PostContactoModule } from './components/post-contacto/post-contacto.module';
 import { ComentariosComponent } from './components/comentarios/comentarios.component';
+import { ValoracionesComponent } from './components/valoraciones/valoraciones.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    ComentariosComponent,
+    ComentariosComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,7 @@ import { ComentariosComponent } from './components/comentarios/comentarios.compo
     HttpClientModule,
     PostContactoModule
   ],
-  providers: [],
+  providers: [Title,{provide: LocationStrategy,useClass:HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

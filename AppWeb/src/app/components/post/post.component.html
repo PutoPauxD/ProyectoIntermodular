@@ -1,4 +1,4 @@
-<div *ngFor="let  data of dataarray; let iControl=index">
+<div class="container-lg" *ngFor="let  data of dataarray; let iControl=index">
 <ng-template  [ngIf]="user" [ngIfElse]="no">
   <ng-template [ngIf]="user.tipe == 1" [ngIfElse]="administrador">
   <ng-template [ngIf]="user.id == data.usuario_id" [ngIfElse]="comentar">
@@ -9,11 +9,13 @@
       </div>
         <p class="mb-1">{{data.mensaje}}</p>
         <small>Autor: {{data.nombre}}</small>
+        <p>Media de valoraciones: {{data.media}}</p>
     </div>
   </ng-template >
   <ng-template #comentar>
-    <div class="bg-light text-dark list-group-item list-group-item-action flex-column align-items-start post-body ">
-    <a data-bs-toggle="modal" (click)="abrirComentario(data)" data-bs-target="#comentariosModal">
+    <div class="bg-light text-dark list-group-item list-group-item-action  post-body">
+      <div class="row row-cols-2">
+      <a data-bs-toggle="modal" (click)="abrirComentario(data)" data-bs-target="#comentariosModal">
       <div >
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 fw-bold">{{data.titulo}}</h5>
@@ -22,11 +24,9 @@
           <small>Autor: {{data.nombre}}</small>
 
       </div>
-    </a>
-    <div (mouseleave)="restoreRating()">
-      <span *ngFor="let star of [1,2,3,4,5]" class="fa"
-      [ngClass]="{'fa-star': star <= auxRating, 'fa-star-o': star > auxRating}"
-      (mouseenter)="auxRating = star" (click)="setRating()"></span>
+      </a>
+      <app-valoraciones [rating]="data.valoracion" [ra]="data.valoracion" (ratingChanged)="changeRating($event,data)"></app-valoraciones>
+      <p>Media de valoraciones: {{data.media}}</p>
     </div>
     </div>
   </ng-template>
@@ -38,6 +38,7 @@
         </div>
           <p class="mb-1">{{data.mensaje}}</p>
           <small>Autor: {{data.nombre}}</small>
+          <p>Media de valoraciones: {{data.media}}</p>
       </div>
   </ng-template>
 </ng-template>
@@ -49,6 +50,7 @@
     </div>
     <p class="mb-1">{{data.mensaje}}</p>
     <small>Autor: {{data.nombre}}</small>
+    <p>Media de valoraciones: {{data.media}}</p>
   </div>
 </ng-template>
 </div>
@@ -67,7 +69,7 @@
           <div class="modal-body">
             <ng-template [ngIf]="$abrir" [ngIfElse]="abrira">
               <p>Nuevo comentario</p>
-              <form autocomplete="off" [formGroup]="comentarioForm" (ngSubmit)="comentarioFormSubmit()" class="mt-2">
+              <form [formGroup]="comentarioForm" (ngSubmit)="comentarioFormSubmit()" class="mt-2">
                   <div class="mb-3">
                     <textarea class="form-control" id="textarea" formControlName="message" [class.is-invalid]="contentField.touched && contentField.invalid" placeholder="Contenido de tu comentario" rows="5" required></textarea>
                     <div *ngIf="contentField.touched && contentField.hasError('required')" class="d-block invalid-feedback">Porfavor introduce tu mensaje. Mínimo 10 carácteres.

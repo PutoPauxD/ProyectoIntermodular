@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Imagen } from 'src/app/clases/imagen';
 import { User } from 'src/app/clases/user';
@@ -27,9 +28,9 @@ export class GaleriaComponent implements OnInit {
   constructor(
     private imagenesService: ImagenesService,
     private userService:UsuariosService,
-    private router: Router
+    private title: Title
   ) {
-
+    this.title.setTitle("Galería");
   }
 
 

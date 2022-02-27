@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS valoraciones (
     CONSTRAINT `fk_valoraciones_posts` 
         FOREIGN KEY (post_id) REFERENCES posts (id) 
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS imagenes (

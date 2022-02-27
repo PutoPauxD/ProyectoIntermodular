@@ -1,20 +1,22 @@
 
 .menu-lat {
   box-shadow: 0 -2px 2px 2px rgba(0,0,0,.2);
+
 }
 
 .menu-lat .title {
-  color: black;
+  color: white;
   font-family: Archivo;
   font-weight: 900;
   font-size: 32px;
 }
 
 .menu-lat .menu-content {
-  color: black;
+  color: white;
   font-family: Archivo;
   font-size: 22px;
   transition: 0.3s ease-in-out;
+
 }
 
 .menu-lat .menu-content:hover {
@@ -30,6 +32,7 @@
 .modal-content {
   border-radius: 10px;
   border: 0px;
+
 }
 
 .modal-title {

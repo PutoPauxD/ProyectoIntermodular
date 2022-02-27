@@ -8,4 +8,6 @@ export class Post {
   publicada:number;
   usuario_id:number;
   nombre?:string;
+  valoracion?:number;
+  media?:number;
 }

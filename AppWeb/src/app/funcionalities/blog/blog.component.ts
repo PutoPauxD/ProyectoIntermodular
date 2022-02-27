@@ -1,5 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable, shareReplay } from 'rxjs';
 import { Post } from 'src/app/clases/post';
@@ -22,11 +23,13 @@ export class BlogComponent implements OnInit {
   postsVer: Post[]=[];
   usuario: User[] = [];
   selected: Post;
+  valoraciones:any[]=[];
 
   eliminadoSelected: Post;
 
   constructor(private postsService: PostsService,
-    private userService:UsuariosService,private route:Router) {
+    private userService:UsuariosService,private title: Title) {
+      this.title.setTitle("Blog");
     }
 
     ngOnInit(): void {
@@ -39,7 +42,73 @@ export class BlogComponent implements OnInit {
       title: new FormControl('', [Validators.required]),
       message: new FormControl('', [Validators.required, Validators.minLength(10)])
     });
-    this.postsService.getPosts().subscribe(res=>{this.postsVer = res;
+    this.postsService.getPosts().subscribe(res=>{this.postsVer = res
+      this.postsService.getValoraciones().subscribe((res:any)=>{this.valoraciones=res
+      if(this.valoraciones.length===0){
+        for(let o=0;o<this.postsVer.length;o++){
+          this.postsVer[o].valoracion = 0;
+          this.postsVer[o].media = 0;
+        }
+      }else{
+        if(!this.user){
+          let media;
+          let veces;
+          for(let i=0;i<this.postsVer.length;i++){
+            this.postsVer[i].media=0;
+            media=0;
+            veces=0;
+            for(let o=0;o<this.valoraciones.length;o++){
+              if(this.valoraciones[o].post_id === this.postsVer[i].id){
+                media = media + Number(this.valoraciones[o].contenido);
+                veces = veces+1;
+              }
+            }
+            if(media===0){
+              this.postsVer[i].media=0;
+            }else{
+              this.postsVer[i].media = media/veces;
+            }
+            media=0;
+            veces=0;
+          }
+
+        }else{
+          let media;
+          let veces;
+          for(let i=0;i<this.postsVer.length;i++){
+
+            media=0;
+            veces=0;
+            for(let o=0;o<this.valoraciones.length;o++){
+              if(this.valoraciones[o].post_id === this.postsVer[i].id){
+                media = media + Number(this.valoraciones[o].contenido);
+                veces = veces+1;
+              }
+            }
+            if(media===0){
+              this.postsVer[i].media=0;
+            }else{
+              this.postsVer[i].media = media/veces;
+            }
+
+            media=0;
+            veces=0;
+          }
+        for(let i=0;i<this.valoraciones.length;i++){
+
+          for(let o=0;o<this.postsVer.length;o++){
+            if(this.postsVer[o].valoracion == null){
+              this.postsVer[o].valoracion = 0;
+            }
+            if(this.valoraciones[i].post_id === this.postsVer[o].id && this.valoraciones[i].usuario_id === this.user.id){
+              this.postsVer[o].valoracion = this.valoraciones[i].contenido;
+            }
+          }
+        }
+      }
+    }
+    });
+
       this.userService.getUsuarios().subscribe(res=>{
         this.usuario = res;
         for(let i=0;i<this.usuario.length;i++){
@@ -92,6 +161,7 @@ export class BlogComponent implements OnInit {
   publicar(){
     this.postsService.setPublicada(this.selected.id).subscribe();
     this.postsVer.push(this.selected);
+    this.selected.media=0;
     for(let i=0;i<this.usuario.length;i++){
       for(let o=0;o<this.postsVer.length;o++){
         if(this.usuario[i].id === this.postsVer[o].usuario_id){

@@ -8,7 +8,7 @@ import { Post } from '../clases/post';
 })
 export class PostsService {
 
-  url:string = "http://localhost/api/";
+  url:string = "http://localhost/dist/api/";
 
   constructor(private http: HttpClient) { }
 
@@ -56,5 +56,20 @@ export class PostsService {
 
   borrarComentario(id: any):Observable<any>{
     return this.http.delete(this.url+"?borrarComentario="+id);
+  }
+
+  setValoracion(valoracion:any):Observable<any> {
+    return this.http.post(this.url+"?valoracion=1", valoracion);
+  }
+
+  getValoraciones():Observable<any>{
+    return this.http.get(this.url+"?valoraciones=1").pipe(
+      catchError((resp: HttpErrorResponse)=>
+        throwError(`Error al obtener comentarios, ${resp.message}`))
+    );
+  }
+
+  putValoracion(id:any,contenido:any):Observable<any> {
+    return this.http.put(this.url+"?actualizarValoracion="+id, contenido);
   }
 }

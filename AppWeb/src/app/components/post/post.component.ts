@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, NgZone, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { observable, Observable, of, shareReplay, timer } from 'rxjs';
 import { Post } from 'src/app/clases/post';
 import { User } from 'src/app/clases/user';
@@ -12,18 +13,16 @@ import { UsuariosService } from 'src/app/services/usuarios/usuarios.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+  a:boolean;
   array:any[]=[];
+  valoraciones:any[]=[];
   $abrir:boolean;
   id:number;
   user: User;
   @Input('post') dataarray!: Post[];
   comentarioForm!: FormGroup;
-  auxRating: number=0;
-  rating: number=0;
 
-  @Output() ratingChanged = new EventEmitter<number>();
-
-  constructor(private zone:NgZone,private postsService: PostsService, private userService:UsuariosService) {
+  constructor(private router:Router,private postsService: PostsService, private userService:UsuariosService) {
 
   }
 
@@ -37,6 +36,7 @@ export class PostComponent implements OnInit {
       this.userService.getUser().subscribe(user => {this.user = user});
     }
     this.postsService.getComentarios().subscribe((res:any)=>{this.array=res},error=>{console.log(error)});
+    this.postsService.getValoraciones().subscribe((res:any)=>{this.valoraciones=res},error=>{console.log(error)});
   }
 
   get contentField(): any {
@@ -67,13 +67,32 @@ export class PostComponent implements OnInit {
           }
         }
   }
-  restoreRating() {
-    this.auxRating = this.rating;
-  }
 
-  setRating() {
-    this.rating=this.auxRating;
+
+  changeRating(rating: number,data:Post) {
+    this.a=false;
+      if(this.valoraciones.length===0){
+        this.postsService.setValoracion({contenido:rating,post_id:data.id,usuario_id:this.user.id}).subscribe(
+          ()=>data.valoracion=rating
+          );
+      }else{
+
+        for(let i=0;i<this.valoraciones.length;i++){
+          if(this.valoraciones[i].post_id === data.id && this.valoraciones[i].usuario_id === this.user.id ){
+            this.postsService.putValoracion(this.valoraciones[i].id,{contenido:rating}).subscribe();
+            data.valoracion=rating;
+            this.a=true;
+          }
+        }
+        if(!this.a){
+          this.postsService.setValoracion({contenido:rating,post_id:data.id,usuario_id:this.user.id}).subscribe(
+            ()=>data.valoracion=rating
+            );
+        }
+      }
+            let currentUrl = this.router.url;
+            this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+              this.router.navigate([currentUrl]);
+            });
     }
-
-
 }

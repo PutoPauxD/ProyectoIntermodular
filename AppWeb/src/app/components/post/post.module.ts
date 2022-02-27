@@ -4,12 +4,14 @@ import { PostComponent } from './post.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { ValoracionesComponent } from '../valoraciones/valoraciones.component';
 
 
 
 @NgModule({
   declarations: [
-    PostComponent
+    PostComponent,
+    ValoracionesComponent
   ],
   exports: [
     PostComponent
