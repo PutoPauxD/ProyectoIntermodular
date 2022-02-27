@@ -44,12 +44,8 @@ export class BlogComponent implements OnInit {
     });
     this.postsService.getPosts().subscribe(res=>{this.postsVer = res
       this.postsService.getValoraciones().subscribe((res:any)=>{this.valoraciones=res
-      if(this.valoraciones.length===0){
-        for(let o=0;o<this.postsVer.length;o++){
-          this.postsVer[o].valoracion = 0;
-          this.postsVer[o].media = 0;
-        }
-      }else{
+
+
         if(!this.user){
           let media;
           let veces;
@@ -105,9 +101,12 @@ export class BlogComponent implements OnInit {
             }
           }
         }
-      }
     }
-    });
+    },
+    error=>{for(let o=0;o<this.postsVer.length;o++){
+      this.postsVer[o].valoracion = 0;
+      this.postsVer[o].media = 0;
+    }});
 
       this.userService.getUsuarios().subscribe(res=>{
         this.usuario = res;
